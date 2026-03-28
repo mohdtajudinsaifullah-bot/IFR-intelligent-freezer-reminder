@@ -4,8 +4,7 @@ import { NextResponse } from 'next/server';
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    // Tarik user_email dari website
-    const { user_email, item_name, expiry_date } = body;
+    const { user_email, item_name, expiry_date, location, category } = body; // Tambah category
 
     const auth = new google.auth.GoogleAuth({
       credentials: {
@@ -19,15 +18,15 @@ export async function POST(req: Request) {
 
     await sheets.spreadsheets.values.append({
       spreadsheetId: process.env.GOOGLE_SHEET_ID,
-      range: 'Freezer_DB!A:E',
+      range: 'Freezer_DB!A:G', // Anjak ke kolum G
       valueInputOption: 'USER_ENTERED',
       requestBody: {
-        // Guna user_email sebenar yang dihantar dari depan
-        values: [[Date.now(), user_email, item_name, expiry_date, 'Active']],
+        // Guna id, user_email, item_name, expiry_date, location, category, status
+        values: [[Date.now(), user_email, item_name, expiry_date, location, category, 'Active']], 
       },
     });
 
-    return NextResponse.json({ message: 'Berjaya masuk Sheet!' });
+    return NextResponse.json({ message: 'Berjaya simpan bro!' });
   } catch (error: any) {
     console.error(error);
     return NextResponse.json({ error: error.message }, { status: 500 });

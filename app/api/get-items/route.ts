@@ -5,7 +5,6 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(req: Request) {
   try {
-    // Tangkap e-mel yang dihantar dari depan
     const { searchParams } = new URL(req.url);
     const userEmail = searchParams.get('email');
 
@@ -25,12 +24,11 @@ export async function GET(req: Request) {
 
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId: process.env.GOOGLE_SHEET_ID,
-      range: 'Freezer_DB!A2:E',
+      range: 'Freezer_DB!A2:G', // Tarik ke kolum G
     });
 
     const rows = response.data.values || [];
     
-    // Tapis ambil yang e-mel sama sahaja
     const filteredItems = rows
       .filter((row) => row[1] === userEmail)
       .map((row) => ({
@@ -38,7 +36,9 @@ export async function GET(req: Request) {
         user_email: row[1],
         item_name: row[2],
         expiry_date: row[3],
-        status: row[4],
+        location: row[4],
+        category: row[5], // Kolum baru F
+        status: row[6], // Kolum G
       }));
 
     return NextResponse.json(filteredItems);
