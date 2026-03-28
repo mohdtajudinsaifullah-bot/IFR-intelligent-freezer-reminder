@@ -29,7 +29,7 @@ const calculateDaysLeft = (expiryDateStr: string): number => {
 };
 
 // --- MAPPING LOKASI & KATEGORI ---
-const locationMap: {[key: string]: {label: string, icon: JSX.Element}} = {
+const locationMap: {[key: string]: {label: string, icon: any}} = {
   peti: {label: 'Peti Ais / Freezer', icon: <IconFreezer />},
   laci: {label: 'Laci / Storage Box', icon: <IconLaci />},
   almari: {label: 'Almari / Kabinet', icon: <IconCabinet />},
