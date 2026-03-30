@@ -148,8 +148,7 @@ export default function Home() {
   }, [senaraiBarang]);
 
   const countBasahCritical = barangWithDays.filter(b => b.category === 'basah' && b.daysLeft >= 0 && b.daysLeft <= 3).length; 
-  const countRteCritical = barangWithDays.filter(b => b.category === 'rte' && b.daysLeft >= 0 && b.daysLeft <= 3).length; 
-  const basahRteSum = countBasahCritical + countRteCritical;
+  const countRteCritical = barangWithDays.filter(b => b.category === 'rte' && b.daysLeft >= 0 && b.daysLeft <= 3).length;
   
   const countKeringWarning = barangWithDays.filter(b => b.category === 'kering' && b.daysLeft >= 0 && b.daysLeft <= 30).length; 
   const countSemua = senaraiBarang.length;
@@ -191,15 +190,29 @@ export default function Home() {
       </div>
       
       {/* DASHBOARD KAD AMARAN */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        
+        {/* KAD 1: BARANG BASAH (BIRU) */}
+        <div className="bg-blue-500 text-white p-6 rounded-2xl flex items-center justify-between shadow-lg">
+          <div>
+            <p className="font-bold text-4xl">{countBasahCritical}</p>
+            <p className="font-medium mt-1">Barang Basah</p>
+            <p className="text-xs text-blue-100">Luput kurang 3 hari</p>
+          </div>
+          <IconAlert />
+        </div>
+
+        {/* KAD 2: READY-TO-EAT (MERAH) */}
         <div className="bg-red-500 text-white p-6 rounded-2xl flex items-center justify-between shadow-lg">
           <div>
-            <p className="font-bold text-4xl">{basahRteSum}</p>
-            <p className="font-medium mt-1">Barang Basah/RTE</p>
+            <p className="font-bold text-4xl">{countRteCritical}</p>
+            <p className="font-medium mt-1">Siap Masak (RTE)</p>
             <p className="text-xs text-red-100">Luput kurang 3 hari</p>
           </div>
           <IconAlert />
         </div>
+
+        {/* KAD 3: BARANG KERING (OREN/AMBER) */}
         <div className="bg-amber-500 text-white p-6 rounded-2xl flex items-center justify-between shadow-lg">
           <div>
             <p className="font-bold text-4xl">{countKeringWarning}</p>
@@ -208,6 +221,8 @@ export default function Home() {
           </div>
           <IconAlert />
         </div>
+
+        {/* KAD 4: JUMLAH KESELURUHAN (KELABU) */}
         <div className="bg-gray-100 text-gray-900 p-6 rounded-2xl flex items-center justify-between shadow">
           <div>
             <p className="font-bold text-4xl">{countSemua}</p>
@@ -216,6 +231,7 @@ export default function Home() {
           </div>
           <div className="text-gray-400"><IconPlus /></div>
         </div>
+        
       </div>
 
       {/* FORM TAMBAH BARANG BARU */}
